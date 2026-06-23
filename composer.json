@@ -1,0 +1,26 @@
+{
+    "name": "matrixone/php-orm-compat-tester",
+    "description": "PHP ORM compatibility test suite for MatrixOne",
+    "type": "project",
+    "require": {
+        "php": ">=8.2",
+        "illuminate/database": "^12.0",
+        "illuminate/events": "^12.0",
+        "doctrine/orm": "^3.3",
+        "doctrine/dbal": "^4.2",
+        "cakephp/database": "^5.1",
+        "illuminate/pagination": "^12.0",
+        "symfony/cache": "^7.0",
+        "symfony/var-exporter": "^7.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "*": true
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "MoTest\\": "src/"
+        }
+    }
+}
