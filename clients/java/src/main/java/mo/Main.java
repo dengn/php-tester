@@ -15,6 +15,7 @@ import mo.flyway.FlywayModule;
 import mo.liquibase.LiquibaseModule;
 import mo.springdata.SpringDataModule;
 import mo.jdbi.JdbiModule;
+import mo.mega.MegaModule;
 
 import java.nio.file.Path;
 import java.sql.Connection;
@@ -84,6 +85,7 @@ public final class Main {
         modules.add(new SpringDataModule());
         modules.add(new FlywayModule());
         modules.add(new LiquibaseModule());
+        modules.add(new MegaModule());
 
         Runner runner = new Runner();
         Db db = new Db(cfg);
