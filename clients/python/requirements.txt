@@ -1,0 +1,5 @@
+# MatrixOne Python ORM compatibility suite - pinned dependencies
+PyMySQL==1.1.1
+SQLAlchemy==2.0.36
+Django==5.1.4
+peewee==3.17.8
