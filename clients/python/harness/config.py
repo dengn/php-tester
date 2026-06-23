@@ -38,8 +38,14 @@ DB_RAW = os.environ.get("MO_DB_RAW", "mo_py_raw")
 DB_SA = os.environ.get("MO_DB_SA", "mo_py_sa")
 DB_DJ = os.environ.get("MO_DB_DJ", "mo_py_dj")
 DB_PW = os.environ.get("MO_DB_PW", "mo_py_pw")
+# New scenario namespaces (real-world workloads + additional ORMs).
+DB_APP = os.environ.get("MO_DB_APP", "mo_py_app")
+DB_SM = os.environ.get("MO_DB_SM", "mo_py_sqlmodel")
+DB_PONY = os.environ.get("MO_DB_PONY", "mo_py_pony")
+DB_TORT = os.environ.get("MO_DB_TORT", "mo_py_tortoise")
+DB_AL = os.environ.get("MO_DB_AL", "mo_py_alembic")
 
-ALL_DBS = [DB_RAW, DB_SA, DB_DJ, DB_PW]
+ALL_DBS = [DB_RAW, DB_SA, DB_DJ, DB_PW, DB_APP, DB_SM, DB_PONY, DB_TORT, DB_AL]
 
 
 def base_dsn_kwargs() -> dict:

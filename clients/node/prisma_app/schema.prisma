@@ -1,0 +1,49 @@
+// Prisma schema for the MatrixOne compatibility suite.
+//
+// NOTE: `prisma db push` FAILS against MatrixOne because the schema engine
+// queries information_schema.check_constraints, which MatrixOne 4.0.0-rc3 does
+// not expose. The runtime @prisma/client (mariadb driver adapter) works for
+// CRUD / raw queries, so we generate the client from this schema and create
+// the tables with raw SQL at run time (see scenarios/prisma.js).
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model PUser {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String?
+  age   Int?
+  posts PPost[]
+
+  @@map("p_user")
+}
+
+model PPost {
+  id        Int      @id @default(autoincrement())
+  title     String
+  body      String?  @db.Text
+  published Boolean  @default(false)
+  views     Int      @default(0)
+  authorId  Int
+  author    PUser    @relation(fields: [authorId], references: [id])
+
+  @@map("p_post")
+}
+
+model PProduct {
+  id     Int      @id @default(autoincrement())
+  sku    String   @unique
+  name   String
+  price  Decimal  @db.Decimal(12, 2)
+  stock  Int      @default(0)
+  meta   Json?
+
+  @@map("p_product")
+}

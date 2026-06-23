@@ -20,6 +20,8 @@ use MoTest\Scenarios\PdoSqlScenarios;
 use MoTest\Scenarios\PdoSqlScenarios2;
 use MoTest\Scenarios\PdoTypeScenarios;
 use MoTest\Scenarios\PreparedStatementScenarios;
+use MoTest\Scenarios\AppWorkloadScenarios;
+use MoTest\Scenarios\TypeMatrixScenarios;
 use MoTest\TestResult;
 
 require __DIR__ . '/vendor/autoload.php';
@@ -71,6 +73,8 @@ $providers = [
     'doctrine2' => DoctrineScenarios2::class,
     'cake' => CakeScenarios::class,
     'cake2' => CakeScenarios2::class,
+    'type-matrix' => TypeMatrixScenarios::class,
+    'app-workload' => AppWorkloadScenarios::class,
 ];
 
 foreach ($providers as $key => $class) {

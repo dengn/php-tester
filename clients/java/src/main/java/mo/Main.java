@@ -11,6 +11,10 @@ import mo.hibernate.HibernateModule;
 import mo.jdbc.JdbcModule;
 import mo.jooq.JooqModule;
 import mo.mybatis.MyBatisModule;
+import mo.flyway.FlywayModule;
+import mo.liquibase.LiquibaseModule;
+import mo.springdata.SpringDataModule;
+import mo.jdbi.JdbiModule;
 
 import java.nio.file.Path;
 import java.sql.Connection;
@@ -76,6 +80,10 @@ public final class Main {
         modules.add(new HibernateModule());
         modules.add(new MyBatisModule());
         modules.add(new JooqModule());
+        modules.add(new JdbiModule());
+        modules.add(new SpringDataModule());
+        modules.add(new FlywayModule());
+        modules.add(new LiquibaseModule());
 
         Runner runner = new Runner();
         Db db = new Db(cfg);
@@ -123,6 +131,10 @@ public final class Main {
             db.dropDatabase("mo_java_hibernate");
             db.dropDatabase("mo_java_mybatis");
             db.dropDatabase("mo_java_jooq");
+            db.dropDatabase("mo_java_jdbi");
+            db.dropDatabase("mo_java_springdata");
+            db.dropDatabase("mo_java_flyway");
+            db.dropDatabase("mo_java_liquibase");
             return;
         }
 

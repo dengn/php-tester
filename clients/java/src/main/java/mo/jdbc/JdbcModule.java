@@ -45,6 +45,19 @@ public final class JdbcModule implements SuiteModule {
         registerMetadata(r, db);
         registerBatchAndLoad(r, db);
         registerSemantics(r, db);
+
+        // ---- NEW scenario classes (deeper matrices, workloads, concurrency,
+        // bulk/streaming, DDL surface, error handling). All run under the jdbc
+        // framework / database namespace.
+        mo.typesx.DecimalGrid.register(r, db, FW, DB);
+        mo.typesx.JavaTimeGrid.register(r, db, FW, DB);
+        mo.typesx.SemanticsGrid.register(r, db, FW, DB);
+        mo.typesx.VectorFulltextGrid.register(r, db, FW, DB);
+        new mo.workload.WorkloadModule(FW, DB).register(r, db);
+        new mo.concurrency.ConcurrencyModule(FW, DB).register(r, db);
+        new mo.bulk.BulkModule(FW, DB).register(r, db);
+        new mo.ddlsurface.DdlSurfaceModule(FW, DB).register(r, db);
+        new mo.errors.ErrorHandlingModule(FW, DB).register(r, db);
     }
 
     // ---------------------------------------------------------------- DDL ----

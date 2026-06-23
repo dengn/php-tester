@@ -36,13 +36,21 @@ FRAMEWORKS = {
     "sqlalchemy": ("scenarios.sqlalchemy_suite", config.DB_SA),
     "django": ("scenarios.django_suite", config.DB_DJ),
     "peewee": ("scenarios.peewee_suite", config.DB_PW),
+    # New: real-world application workloads + deeper semantics (raw driver).
+    "app": ("scenarios.app_workloads", config.DB_APP),
+    # New: additional ORMs (best-effort against MatrixOne).
+    "sqlmodel": ("scenarios.sqlmodel_suite", config.DB_SM),
+    "pony": ("scenarios.pony_suite", config.DB_PONY),
+    "tortoise": ("scenarios.tortoise_suite", config.DB_TORT),
+    "alembic": ("scenarios.alembic_suite", config.DB_AL),
 }
 
 
 def parse_args(argv):
     p = argparse.ArgumentParser(description="MatrixOne Python ORM compatibility suite")
     p.add_argument("--only", default=None,
-                   help="comma list of frameworks: raw,sqlalchemy,django,peewee")
+                   help="comma list of frameworks: raw,sqlalchemy,django,peewee,"
+                        "app,sqlmodel,pony,tortoise,alembic")
     p.add_argument("--limit", type=int, default=None,
                    help="run only N scenarios (stratified across fw/category)")
     p.add_argument("--count", action="store_true",

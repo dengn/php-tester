@@ -16,6 +16,9 @@ const DATABASES = {
   typeorm: 'mo_node_typeorm',
   knex: 'mo_node_knex',
   prisma: 'mo_node_prisma',
+  objection: 'mo_node_objection',
+  mikro: 'mo_node_mikro',
+  drizzle: 'mo_node_drizzle',
 };
 
 module.exports = { CONFIG, DATABASES };
