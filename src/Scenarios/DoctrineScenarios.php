@@ -442,11 +442,9 @@ final class DoctrineScenarios
             $em->getClassMetadata(DocBook::class),
             $em->getClassMetadata(DocTag::class),
         ];
-        // Drop via raw SQL to avoid FK ordering issues, then create.
-        $conn = $em->getConnection();
-        foreach (['doc_book_tag', 'doc_books', 'doc_tags', 'doc_authors'] as $t) {
-            $conn->executeStatement("DROP TABLE IF EXISTS `$t`");
-        }
+        // FK-safe drop of all doc_* tables (regardless of which provider
+        // created them) so cross-provider entities never block teardown.
+        Connections::dropTablesByPrefix(self::DB, 'doc_');
         $tool->createSchema($classes);
     }
 

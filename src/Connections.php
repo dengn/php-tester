@@ -129,4 +129,22 @@ final class Connections
             'timezone' => 'UTC',
         ]);
     }
+
+    /**
+     * FK-safe teardown: drop every table whose name starts with $prefix in the
+     * given database, ignoring foreign-key ordering. Used to give ORM schema
+     * rebuilds a clean slate regardless of which provider created which tables.
+     */
+    public static function dropTablesByPrefix(string $db, string $prefix): void
+    {
+        $pdo = self::pdo($db);
+        $pdo->exec('SET FOREIGN_KEY_CHECKS=0');
+        $tables = $pdo->query('SHOW TABLES')->fetchAll(\PDO::FETCH_COLUMN);
+        foreach ($tables as $t) {
+            if (str_starts_with((string) $t, $prefix)) {
+                $pdo->exec("DROP TABLE IF EXISTS `$t`");
+            }
+        }
+        $pdo->exec('SET FOREIGN_KEY_CHECKS=1');
+    }
 }

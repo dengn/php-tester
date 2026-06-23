@@ -8,11 +8,16 @@ use MoTest\Runner;
 use MoTest\Scenarios\BehaviorScenarios;
 use MoTest\Scenarios\CakeScenarios;
 use MoTest\Scenarios\DoctrineScenarios;
+use MoTest\Scenarios\CakeScenarios2;
+use MoTest\Scenarios\DoctrineScenarios2;
 use MoTest\Scenarios\EloquentScenarios;
+use MoTest\Scenarios\EloquentScenarios2;
 use MoTest\Scenarios\ExtraScenarios;
 use MoTest\Scenarios\MatrixOneFeatureScenarios;
 use MoTest\Scenarios\PdoFunctionScenarios;
+use MoTest\Scenarios\PdoFunctionScenarios2;
 use MoTest\Scenarios\PdoSqlScenarios;
+use MoTest\Scenarios\PdoSqlScenarios2;
 use MoTest\Scenarios\PdoTypeScenarios;
 use MoTest\Scenarios\PreparedStatementScenarios;
 use MoTest\TestResult;
@@ -58,9 +63,14 @@ $providers = [
     'pdo-prepared' => PreparedStatementScenarios::class,
     'pdo-extra' => ExtraScenarios::class,
     'pdo-mo-feature' => MatrixOneFeatureScenarios::class,
+    'pdo-func2' => PdoFunctionScenarios2::class,
+    'pdo-sql2' => PdoSqlScenarios2::class,
     'eloquent' => EloquentScenarios::class,
+    'eloquent2' => EloquentScenarios2::class,
     'doctrine' => DoctrineScenarios::class,
+    'doctrine2' => DoctrineScenarios2::class,
     'cake' => CakeScenarios::class,
+    'cake2' => CakeScenarios2::class,
 ];
 
 foreach ($providers as $key => $class) {
