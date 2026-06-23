@@ -1,10 +1,10 @@
 # PHP ORM ⇆ MatrixOne Compatibility Report
 
-- **Generated:** 2026-06-23 02:46:18 UTC
+- **Generated:** 2026-06-23 03:17:13 UTC
 - **Target:** `127.0.0.1:6001`
-- **Server version():** `8.0.30-MatrixOne-v3.0.15`
-- **Scenarios:** 1002 total — **868 passed**, **134 failed**, **0 skipped**
-- **Pass rate (excl. skipped):** 86.6%
+- **Server version():** `8.0.30-MatrixOne-v4.0.0-rc3`
+- **Scenarios:** 1002 total — **915 passed**, **87 failed**, **0 skipped**
+- **Pass rate (excl. skipped):** 91.3%
 
 ## Summary by framework
 
@@ -12,8 +12,8 @@
 |---|--:|--:|--:|--:|--:|
 | CakePHP | 28 | 27 | 1 | 0 | 96.4% |
 | Doctrine | 66 | 60 | 6 | 0 | 90.9% |
-| Eloquent | 132 | 126 | 6 | 0 | 95.5% |
-| PDO | 776 | 655 | 121 | 0 | 84.4% |
+| Eloquent | 132 | 128 | 4 | 0 | 97.0% |
+| PDO | 776 | 700 | 76 | 0 | 90.2% |
 
 ## Summary by category
 
@@ -36,8 +36,8 @@
 | constraint:pk | 1 | 1 | 0 | 0 |
 | constraint:unique | 1 | 1 | 0 | 0 |
 | datatype:ddl | 47 | 47 | 0 | 0 |
-| datatype:edge | 25 | 24 | 1 | 0 |
-| datatype:roundtrip | 47 | 45 | 2 | 0 |
+| datatype:edge | 25 | 25 | 0 | 0 |
+| datatype:roundtrip | 47 | 46 | 1 | 0 |
 | dbal:information_schema | 8 | 7 | 1 | 0 |
 | dbal:introspection | 9 | 7 | 2 | 0 |
 | dbal:querybuilder | 12 | 12 | 0 | 0 |
@@ -45,7 +45,7 @@
 | dbal:transaction | 3 | 2 | 1 | 0 |
 | dbal:type | 19 | 18 | 1 | 0 |
 | ddl:alter | 18 | 17 | 1 | 0 |
-| ddl:create | 19 | 17 | 2 | 0 |
+| ddl:create | 19 | 19 | 0 | 0 |
 | ddl:drop | 3 | 3 | 0 | 0 |
 | ddl:view | 3 | 3 | 0 | 0 |
 | dml:delete | 4 | 3 | 1 | 0 |
@@ -55,19 +55,19 @@
 | feature:fulltext | 3 | 3 | 0 | 0 |
 | feature:upsert | 4 | 4 | 0 | 0 |
 | feature:vector | 8 | 8 | 0 | 0 |
-| function:aggregate | 20 | 17 | 3 | 0 |
+| function:aggregate | 20 | 20 | 0 | 0 |
 | function:cast | 20 | 18 | 2 | 0 |
-| function:datetime | 78 | 62 | 16 | 0 |
-| function:encryption | 10 | 7 | 3 | 0 |
-| function:flow | 8 | 7 | 1 | 0 |
+| function:datetime | 78 | 73 | 5 | 0 |
+| function:encryption | 10 | 9 | 1 | 0 |
+| function:flow | 8 | 8 | 0 | 0 |
 | function:info | 12 | 10 | 2 | 0 |
-| function:json | 32 | 18 | 14 | 0 |
-| function:numeric | 55 | 50 | 5 | 0 |
-| function:scalar | 26 | 18 | 8 | 0 |
-| function:spatial | 12 | 0 | 12 | 0 |
-| function:string | 86 | 75 | 11 | 0 |
+| function:json | 32 | 20 | 12 | 0 |
+| function:numeric | 55 | 53 | 2 | 0 |
+| function:scalar | 26 | 24 | 2 | 0 |
+| function:spatial | 12 | 3 | 9 | 0 |
+| function:string | 86 | 83 | 3 | 0 |
 | function:vector | 7 | 6 | 1 | 0 |
-| function:window | 13 | 12 | 1 | 0 |
+| function:window | 13 | 13 | 0 | 0 |
 | index:create | 11 | 9 | 2 | 0 |
 | index:drop | 1 | 1 | 0 | 0 |
 | introspection | 26 | 21 | 5 | 0 |
@@ -87,13 +87,13 @@
 | query:cte | 2 | 2 | 0 | 0 |
 | query:group | 3 | 3 | 0 | 0 |
 | query:join | 7 | 7 | 0 | 0 |
-| query:misc | 7 | 6 | 1 | 0 |
+| query:misc | 7 | 7 | 0 | 0 |
 | query:select | 7 | 6 | 1 | 0 |
 | query:setop | 4 | 4 | 0 | 0 |
 | query:subquery | 5 | 5 | 0 | 0 |
 | relationship | 10 | 10 | 0 | 0 |
 | schema | 3 | 2 | 1 | 0 |
-| schema:modifier | 19 | 15 | 4 | 0 |
+| schema:modifier | 19 | 17 | 2 | 0 |
 | schema:operation | 13 | 13 | 0 | 0 |
 | schema:type | 45 | 45 | 0 | 0 |
 | sql:advanced | 15 | 15 | 0 | 0 |
@@ -108,82 +108,12 @@
 
 ## Compatibility issues (failures) grouped by error signature
 
-### Error `20105` — 60 scenario(s)
+### Error `1064` — 25 scenario(s)
 
-> SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'greatest'
-
-| # | Framework | Category | Scenario |
-|--:|---|---|---|
-| 112 | PDO | function:scalar | GREATEST() |
-| 113 | PDO | function:scalar | LEAST() |
-| 114 | PDO | function:scalar | INET_ATON() |
-| 115 | PDO | function:scalar | INET_NTOA() |
-| 116 | PDO | function:scalar | INET6_ATON() |
-| 117 | PDO | function:scalar | BENCHMARK() |
-| 130 | PDO | function:string | CHARACTER_LENGTH |
-| 132 | PDO | function:string | OCTET_LENGTH |
-| 153 | PDO | function:string | INSERT |
-| 156 | PDO | function:string | ORD |
-| 157 | PDO | function:string | CHAR |
-| 162 | PDO | function:string | CONV |
-| 165 | PDO | function:string | SOUNDEX |
-| 211 | PDO | function:numeric | BIT_COUNT |
-| 226 | PDO | function:datetime | UTC_DATE |
-| 227 | PDO | function:datetime | UTC_TIME |
-| 235 | PDO | function:datetime | DAYOFMONTH |
-| 239 | PDO | function:datetime | MICROSECOND |
-| 242 | PDO | function:datetime | WEEKOFYEAR |
-| 263 | PDO | function:datetime | SEC_TO_TIME |
-| 264 | PDO | function:datetime | TIME_TO_SEC |
-| 266 | PDO | function:datetime | FROM_DAYS |
-| 278 | PDO | function:json | JSON_CONTAINS |
-| 279 | PDO | function:json | JSON_CONTAINS_PATH |
-| 282 | PDO | function:json | JSON_DEPTH |
-| 286 | PDO | function:json | JSON_REMOVE |
-| 287 | PDO | function:json | JSON_MERGE_PATCH |
-| 288 | PDO | function:json | JSON_MERGE_PRESERVE |
-| 289 | PDO | function:json | JSON_ARRAY_APPEND |
-| 290 | PDO | function:json | JSON_SEARCH |
-| 291 | PDO | function:json | JSON_OVERLAPS |
-| 301 | PDO | function:aggregate | STDDEV |
-| 303 | PDO | function:aggregate | STDDEV_SAMP |
-| 305 | PDO | function:aggregate | VAR_SAMP |
-| 331 | PDO | function:vector | l1_distance |
-| 392 | PDO | query:select | DO statement |
-| 501 | PDO | behavior:null | GREATEST with NULL is NULL |
-| 582 | PDO | function:string | EXPORT_SET |
-| 583 | PDO | function:string | MAKE_SET |
-| 584 | PDO | function:string | WEIGHT_STRING |
-| 585 | PDO | function:string | CHAR USING |
-| 609 | PDO | function:numeric | LEAST mixed |
-| 610 | PDO | function:numeric | GREATEST strings |
-| 613 | PDO | function:numeric | CONV bin to hex |
-| 624 | PDO | function:datetime | PERIOD_ADD |
-| 625 | PDO | function:datetime | PERIOD_DIFF |
-| 644 | PDO | function:datetime | TIME_TO_SEC |
-| 671 | PDO | function:info | COERCIBILITY |
-| 676 | PDO | function:info | UUID_SHORT |
-| 683 | PDO | function:encryption | COMPRESS round-trip |
-| 684 | PDO | function:encryption | RANDOM_BYTES length |
-| 687 | PDO | function:spatial | ST_GeomFromText POINT |
-| 691 | PDO | function:spatial | ST_AsText linestring |
-| 693 | PDO | function:spatial | ST_GeomFromText POLYGON |
-| 696 | PDO | function:spatial | GeomFromText alias |
-| 700 | PDO | function:json | JSON_STORAGE_SIZE |
-| 706 | PDO | function:json | JSON_ARRAYAGG |
-| 707 | PDO | function:json | JSON_OBJECTAGG |
-| 716 | PDO | function:flow | GREATEST in CASE |
-| 907 | Eloquent | misc | whereJsonContains |
-
-### Error `1064` — 30 scenario(s)
-
-> SQLSTATE[HY000]: General error: 1064 SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syntax to use. syntax error at line 1 column 77 near " OVER (ORDER BY n) t2 FROM (SELECT 1 AS n UNION ALL SELECT 2 UNION ALL SELECT 3) t) z) AS v";
+> SQLSTATE[HY000]: General error: 1064 SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syntax to use. syntax error at line 1 column 40 near " USING BTREE";
 
 | # | Framework | Category | Scenario |
 |--:|---|---|---|
-| 315 | PDO | function:window | NTILE |
-| 348 | PDO | ddl:create | generated column STORED |
-| 349 | PDO | ddl:create | generated column VIRTUAL |
 | 439 | PDO | index:create | index USING BTREE |
 | 443 | PDO | index:create | spatial index |
 | 454 | PDO | transaction:lock | LOCK IN SHARE MODE |
@@ -202,8 +132,6 @@
 | 698 | PDO | function:spatial | ST_GeometryType |
 | 702 | PDO | function:json | MEMBER OF |
 | 703 | PDO | function:json | JSON_TABLE |
-| 835 | Eloquent | schema:modifier | modifier storedAs() |
-| 836 | Eloquent | schema:modifier | modifier virtualAs() |
 | 840 | Eloquent | schema:modifier | modifier spatialIndex |
 | 910 | Doctrine | dbal:introspection | listTables (bulk) |
 | 915 | Doctrine | dbal:introspection | introspectTable |
@@ -212,7 +140,7 @@
 | 935 | Doctrine | dbal:type | type float |
 | 978 | CakePHP | schema | describe() table reflection |
 
-### Error `BEHAVIOR` — 21 scenario(s)
+### Error `BEHAVIOR` — 22 scenario(s)
 
 > FLOAT numeric round-trip drifted: expected 3.5 got 4.0
 
@@ -235,10 +163,37 @@
 | 517 | PDO | behavior:collation | UNIQUE collides case-insensitively |
 | 518 | PDO | behavior:collation | default column collation is *_ci |
 | 526 | PDO | behavior:autoincrement | LAST_INSERT_ID after multi-row insert |
+| 613 | PDO | function:numeric | CONV bin to hex |
 | 682 | PDO | function:encryption | TO_BASE64 round-trip |
 | 757 | PDO | feature:collation | COLLATE utf8mb4_general_ci in comparison |
 | 758 | PDO | feature:collation | column COLLATE utf8mb4_general_ci case-insensitive WHERE |
 | 903 | Eloquent | transaction | nested transaction (savepoint) |
+
+### Error `20105` — 19 scenario(s)
+
+> SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'benchmark'
+
+| # | Framework | Category | Scenario |
+|--:|---|---|---|
+| 117 | PDO | function:scalar | BENCHMARK() |
+| 130 | PDO | function:string | CHARACTER_LENGTH |
+| 278 | PDO | function:json | JSON_CONTAINS |
+| 279 | PDO | function:json | JSON_CONTAINS_PATH |
+| 282 | PDO | function:json | JSON_DEPTH |
+| 286 | PDO | function:json | JSON_REMOVE |
+| 287 | PDO | function:json | JSON_MERGE_PATCH |
+| 288 | PDO | function:json | JSON_MERGE_PRESERVE |
+| 289 | PDO | function:json | JSON_ARRAY_APPEND |
+| 290 | PDO | function:json | JSON_SEARCH |
+| 291 | PDO | function:json | JSON_OVERLAPS |
+| 331 | PDO | function:vector | l1_distance |
+| 392 | PDO | query:select | DO statement |
+| 584 | PDO | function:string | WEIGHT_STRING |
+| 671 | PDO | function:info | COERCIBILITY |
+| 676 | PDO | function:info | UUID_SHORT |
+| 696 | PDO | function:spatial | GeomFromText alias |
+| 700 | PDO | function:json | JSON_STORAGE_SIZE |
+| 907 | Eloquent | misc | whereJsonContains |
 
 ### Error `20101` — 11 scenario(s)
 
@@ -258,20 +213,7 @@
 | 839 | Eloquent | schema:modifier | modifier fulltext index |
 | 962 | Doctrine | dbal:transaction | nested with savepoints |
 
-### Error `ERROR` — 6 scenario(s)
-
-> PDO::query(): Unknown type 243 sent by the server. Please send a report to the developers
-
-| # | Framework | Category | Scenario |
-|--:|---|---|---|
-| 90 | PDO | datatype:roundtrip | round-trip UUID |
-| 100 | PDO | function:scalar | UUID() |
-| 424 | PDO | query:misc | SELECT FOR UPDATE |
-| 459 | PDO | introspection | SHOW VARIABLES |
-| 571 | PDO | prepared:non-preparable | prepare SHOW VARIABLES LIKE |
-| 738 | PDO | datatype:edge | UUID stored |
-
-### Error `20203` — 6 scenario(s)
+### Error `20203` — 8 scenario(s)
 
 > SQLSTATE[HY000]: General error: 20203 invalid argument parse timestamp, bad value 10:20:30
 
@@ -282,7 +224,18 @@
 | 238 | PDO | function:datetime | SECOND |
 | 497 | PDO | behavior:coercion | trailing-text string add (warns, =15) |
 | 498 | PDO | behavior:coercion | CAST non-numeric to UNSIGNED = 0 |
+| 501 | PDO | behavior:null | GREATEST with NULL is NULL |
+| 585 | PDO | function:string | CHAR USING |
 | 615 | PDO | function:numeric | RAND seeded |
+
+### Error `ERROR` — 2 scenario(s)
+
+> PDOStatement::fetchAll(): Malformed server packet. Field length pointing after the end of packet
+
+| # | Framework | Category | Scenario |
+|--:|---|---|---|
+| 459 | PDO | introspection | SHOW VARIABLES |
+| 571 | PDO | prepared:non-preparable | prepare SHOW VARIABLES LIKE |
 
 ## Detailed failures
 
@@ -291,45 +244,10 @@
 - **Code:** `BEHAVIOR`
 - **Message:** FLOAT numeric round-trip drifted: expected 3.5 got 4.0
 
-#### #90 [PDO / datatype:roundtrip] round-trip UUID
-
-- **Code:** `ERROR`
-- **Message:** PDO::query(): Unknown type 243 sent by the server. Please send a report to the developers
-
-#### #100 [PDO / function:scalar] UUID()
-
-- **Code:** `ERROR`
-- **Message:** PDO::query(): Unknown type 243 sent by the server. Please send a report to the developers
-
 #### #111 [PDO / function:scalar] CONVERT()
 
 - **Code:** `20101`
 - **Message:** SQLSTATE[HY000]: General error: 20101 internal error: Can't cast '123' from BIGINT type to CHAR type. 123 is larger than Dest length 1
-
-#### #112 [PDO / function:scalar] GREATEST()
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'greatest'
-
-#### #113 [PDO / function:scalar] LEAST()
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'least'
-
-#### #114 [PDO / function:scalar] INET_ATON()
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'inet_aton'
-
-#### #115 [PDO / function:scalar] INET_NTOA()
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'inet_ntoa'
-
-#### #116 [PDO / function:scalar] INET6_ATON()
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'inet6_aton'
 
 #### #117 [PDO / function:scalar] BENCHMARK()
 
@@ -340,56 +258,6 @@
 
 - **Code:** `20105`
 - **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'character_length'
-
-#### #132 [PDO / function:string] OCTET_LENGTH
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'octet_length'
-
-#### #153 [PDO / function:string] INSERT
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'insert'
-
-#### #156 [PDO / function:string] ORD
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'ord'
-
-#### #157 [PDO / function:string] CHAR
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'char'
-
-#### #162 [PDO / function:string] CONV
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'conv'
-
-#### #165 [PDO / function:string] SOUNDEX
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'soundex'
-
-#### #211 [PDO / function:numeric] BIT_COUNT
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'bit_count'
-
-#### #226 [PDO / function:datetime] UTC_DATE
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'utc_date'
-
-#### #227 [PDO / function:datetime] UTC_TIME
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'utc_time'
-
-#### #235 [PDO / function:datetime] DAYOFMONTH
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'dayofmonth'
 
 #### #236 [PDO / function:datetime] HOUR
 
@@ -406,16 +274,6 @@
 - **Code:** `20203`
 - **Message:** SQLSTATE[HY000]: General error: 20203 invalid argument parse timestamp, bad value 10:20:30
 
-#### #239 [PDO / function:datetime] MICROSECOND
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'microsecond'
-
-#### #242 [PDO / function:datetime] WEEKOFYEAR
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'weekofyear'
-
 #### #253 [PDO / function:datetime] ADDTIME
 
 - **Code:** `BEHAVIOR`
@@ -425,21 +283,6 @@
 
 - **Code:** `BEHAVIOR`
 - **Message:** SUBTIME: expected '09:00:00', got '2026-06-23 09:00:00.000000'
-
-#### #263 [PDO / function:datetime] SEC_TO_TIME
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'sec_to_time'
-
-#### #264 [PDO / function:datetime] TIME_TO_SEC
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'time_to_sec'
-
-#### #266 [PDO / function:datetime] FROM_DAYS
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'from_days'
 
 #### #278 [PDO / function:json] JSON_CONTAINS
 
@@ -486,40 +329,10 @@
 - **Code:** `20105`
 - **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'json_overlaps'
 
-#### #301 [PDO / function:aggregate] STDDEV
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'stddev'
-
-#### #303 [PDO / function:aggregate] STDDEV_SAMP
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'stddev_samp'
-
-#### #305 [PDO / function:aggregate] VAR_SAMP
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'var_samp'
-
-#### #315 [PDO / function:window] NTILE
-
-- **Code:** `1064`
-- **Message:** SQLSTATE[HY000]: General error: 1064 SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syntax to use. syntax error at line 1 column 77 near " OVER (ORDER BY n) t2 FROM (SELECT 1 AS n UNION ALL SELECT 2 UNION ALL SELECT 3) t) z) AS v";
-
 #### #331 [PDO / function:vector] l1_distance
 
 - **Code:** `20105`
 - **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'l1_distance'
-
-#### #348 [PDO / ddl:create] generated column STORED
-
-- **Code:** `1064`
-- **Message:** SQLSTATE[HY000]: General error: 1064 SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syntax to use. syntax error at line 1 column 48 near " GENERATED ALWAYS AS (a+1) STORED)";
-
-#### #349 [PDO / ddl:create] generated column VIRTUAL
-
-- **Code:** `1064`
-- **Message:** SQLSTATE[HY000]: General error: 1064 SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syntax to use. syntax error at line 1 column 48 near " GENERATED ALWAYS AS (a+1) VIRTUAL)";
 
 #### #365 [PDO / ddl:alter] ALTER ADD CHECK
 
@@ -535,11 +348,6 @@
 
 - **Code:** `20105`
 - **Message:** SQLSTATE[HY000]: General error: 20105 not supported: do 1
-
-#### #424 [PDO / query:misc] SELECT FOR UPDATE
-
-- **Code:** `ERROR`
-- **Message:** PDO::exec(): Error reading result set's header
 
 #### #429 [PDO / constraint:check] CHECK rejects violation
 
@@ -584,12 +392,12 @@
 #### #479 [PDO / introspection] DESCRIBE table
 
 - **Code:** `1064`
-- **Message:** SQLSTATE[HY000]: General error: 1064 SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syntax to use. syntax error at line 1 column 36 near " DESCRIBE `i_437_1efbb`";
+- **Message:** SQLSTATE[HY000]: General error: 1064 SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syntax to use. syntax error at line 1 column 36 near " DESCRIBE `i_437_2366c`";
 
 #### #480 [PDO / introspection] EXPLAIN SELECT
 
 - **Code:** `1064`
-- **Message:** SQLSTATE[HY000]: General error: 1064 SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syntax to use. syntax error at line 1 column 35 near " EXPLAIN SELECT * FROM `i_438_6ce5b`";
+- **Message:** SQLSTATE[HY000]: General error: 1064 SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syntax to use. syntax error at line 1 column 35 near " EXPLAIN SELECT * FROM `i_438_bc236`";
 
 #### #484 [PDO / behavior:operator] pipe-pipe is logical OR
 
@@ -613,8 +421,8 @@
 
 #### #501 [PDO / behavior:null] GREATEST with NULL is NULL
 
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'greatest'
+- **Code:** `20203`
+- **Message:** SQLSTATE[HY000]: General error: 20203 invalid argument function greatest, bad value [BIGINT ANY]
 
 #### #507 [PDO / behavior:collation] case-insensitive equality
 
@@ -696,16 +504,6 @@
 - **Code:** `ERROR`
 - **Message:** PDOStatement::fetchAll(): Malformed server packet. Field length pointing after the end of packet
 
-#### #582 [PDO / function:string] EXPORT_SET
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'export_set'
-
-#### #583 [PDO / function:string] MAKE_SET
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'make_set'
-
 #### #584 [PDO / function:string] WEIGHT_STRING
 
 - **Code:** `20105`
@@ -713,43 +511,18 @@
 
 #### #585 [PDO / function:string] CHAR USING
 
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'char'
-
-#### #609 [PDO / function:numeric] LEAST mixed
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'least'
-
-#### #610 [PDO / function:numeric] GREATEST strings
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'greatest'
+- **Code:** `20203`
+- **Message:** SQLSTATE[HY000]: General error: 20203 invalid argument cast to int, bad value utf8mb4
 
 #### #613 [PDO / function:numeric] CONV bin to hex
 
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'conv'
+- **Code:** `BEHAVIOR`
+- **Message:** CONV('1010', 2, 16): expected 'A', got 'a'
 
 #### #615 [PDO / function:numeric] RAND seeded
 
 - **Code:** `20203`
 - **Message:** SQLSTATE[HY000]: General error: 20203 invalid argument function rand, bad value [BIGINT]
-
-#### #624 [PDO / function:datetime] PERIOD_ADD
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'period_add'
-
-#### #625 [PDO / function:datetime] PERIOD_DIFF
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'period_diff'
-
-#### #644 [PDO / function:datetime] TIME_TO_SEC
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'time_to_sec'
 
 #### #647 [PDO / function:cast] CAST AS CHAR(n)
 
@@ -776,21 +549,6 @@
 - **Code:** `BEHAVIOR`
 - **Message:** FROM_BASE64(TO_BASE64('hello')): expected 'hello', got 'hello' . "\0" . ''
 
-#### #683 [PDO / function:encryption] COMPRESS round-trip
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'compress'
-
-#### #684 [PDO / function:encryption] RANDOM_BYTES length
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'random_bytes'
-
-#### #687 [PDO / function:spatial] ST_GeomFromText POINT
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'st_geomfromtext'
-
 #### #688 [PDO / function:spatial] POINT constructor
 
 - **Code:** `1064`
@@ -806,20 +564,10 @@
 - **Code:** `1064`
 - **Message:** SQLSTATE[HY000]: General error: 1064 SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syntax to use. syntax error at line 1 column 46 near "(3, 4)) AS v";
 
-#### #691 [PDO / function:spatial] ST_AsText linestring
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'st_geomfromtext'
-
 #### #692 [PDO / function:spatial] ST_Distance
 
 - **Code:** `1064`
 - **Message:** SQLSTATE[HY000]: General error: 1064 SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syntax to use. syntax error at line 1 column 53 near "(0,0), POINT(3,4)) AS v";
-
-#### #693 [PDO / function:spatial] ST_GeomFromText POLYGON
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'st_geomfromtext'
 
 #### #694 [PDO / function:spatial] ST_Contains
 
@@ -861,26 +609,6 @@
 - **Code:** `1064`
 - **Message:** SQLSTATE[HY000]: General error: 1064 SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syntax to use. syntax error at line 1 column 93 near " COLUMNS(v INT PATH '$')) jt) AS v";
 
-#### #706 [PDO / function:json] JSON_ARRAYAGG
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'json_arrayagg'
-
-#### #707 [PDO / function:json] JSON_OBJECTAGG
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'json_objectagg'
-
-#### #716 [PDO / function:flow] GREATEST in CASE
-
-- **Code:** `20105`
-- **Message:** SQLSTATE[HY000]: General error: 20105 not supported: function or operator 'greatest'
-
-#### #738 [PDO / datatype:edge] UUID stored
-
-- **Code:** `ERROR`
-- **Message:** PDO::query(): Unknown type 243 sent by the server. Please send a report to the developers
-
 #### #757 [PDO / feature:collation] COLLATE utf8mb4_general_ci in comparison
 
 - **Code:** `BEHAVIOR`
@@ -891,28 +619,10 @@
 - **Code:** `BEHAVIOR`
 - **Message:** explicit _ci column collation should match 'ALICE'=='alice'; got 0 rows
 
-#### #835 [Eloquent / schema:modifier] modifier storedAs()
-
-```sql
-create table `el_606_bfd37` (`anchor` int not null, `c` int as (anchor + 1) stored) default character set utf8mb4 collate 'utf8mb4_general_ci'
-```
-
-- **Code:** `1064`
-- **Message:** SQLSTATE[HY000]: General error: 1064 SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syntax to use. syntax error at line 1 column 92 near " as (anchor + 1) stored) default character set utf8mb4 collate 'utf8mb4_general_ci'";
-
-#### #836 [Eloquent / schema:modifier] modifier virtualAs()
-
-```sql
-create table `el_607_238fe` (`anchor` int not null, `c` int as (anchor + 1)) default character set utf8mb4 collate 'utf8mb4_general_ci'
-```
-
-- **Code:** `1064`
-- **Message:** SQLSTATE[HY000]: General error: 1064 SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syntax to use. syntax error at line 1 column 92 near " as (anchor + 1)) default character set utf8mb4 collate 'utf8mb4_general_ci'";
-
 #### #839 [Eloquent / schema:modifier] modifier fulltext index
 
 ```sql
-alter table `el_610_304c5` add fulltext `el_610_304c5_c_fulltext`(`c`)
+alter table `el_610_443ec` add fulltext `el_610_443ec_c_fulltext`(`c`)
 ```
 
 - **Code:** `20101`
@@ -921,11 +631,11 @@ alter table `el_610_304c5` add fulltext `el_610_304c5_c_fulltext`(`c`)
 #### #840 [Eloquent / schema:modifier] modifier spatialIndex
 
 ```sql
-alter table `el_611_bfea9` add spatial index `el_611_bfea9_c_spatialindex`(`c`)
+alter table `el_611_0c44c` add spatial index `el_611_0c44c_c_spatialindex`(`c`)
 ```
 
 - **Code:** `1064`
-- **Message:** SQLSTATE[HY000]: General error: 1064 SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syntax to use. syntax error at line 1 column 74 near " index `el_611_bfea9_c_spatialindex`(`c`)";
+- **Message:** SQLSTATE[HY000]: General error: 1064 SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syntax to use. syntax error at line 1 column 74 near " index `el_611_0c44c_c_spatialindex`(`c`)";
 
 #### #903 [Eloquent / transaction] nested transaction (savepoint)
 
