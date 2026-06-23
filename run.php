@@ -22,6 +22,11 @@ use MoTest\Scenarios\PdoTypeScenarios;
 use MoTest\Scenarios\PreparedStatementScenarios;
 use MoTest\Scenarios\AppWorkloadScenarios;
 use MoTest\Scenarios\TypeMatrixScenarios;
+use MoTest\Scenarios\DdlSurfaceScenarios;
+use MoTest\Scenarios\EloquentAppScenarios;
+use MoTest\Scenarios\SqlSemanticsScenarios;
+use MoTest\Scenarios\RedBeanScenarios;
+use MoTest\Scenarios\MegaMatrixScenarios;
 use MoTest\TestResult;
 
 require __DIR__ . '/vendor/autoload.php';
@@ -75,6 +80,11 @@ $providers = [
     'cake2' => CakeScenarios2::class,
     'type-matrix' => TypeMatrixScenarios::class,
     'app-workload' => AppWorkloadScenarios::class,
+    'ddl-surface' => DdlSurfaceScenarios::class,
+    'eloquent-app' => EloquentAppScenarios::class,
+    'sql-semantics' => SqlSemanticsScenarios::class,
+    'redbean' => RedBeanScenarios::class,
+    'mega-matrix' => MegaMatrixScenarios::class,
 ];
 
 foreach ($providers as $key => $class) {
