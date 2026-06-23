@@ -5,42 +5,47 @@ against **MatrixOne 4.0.0-rc3** (`8.0.30-MatrixOne-v4.0.0-rc3`).
 
 ## Headline
 
-**17,548 scenarios · 16,578 pass · 958 fail · 12 skip — 94.5% pass.**
+**41,653 scenarios · 36,958 pass · 4,682 fail · 13 skip — 88.8% pass.**
+(~10,000 scenarios per language; ~25 ORMs/drivers.)
 
 | Language | Suite | ORMs / drivers | Scenarios | Pass | Fail | Pass % |
 |---|---|---|--:|--:|--:|--:|
-| PHP | `/` | PDO, Eloquent 12, Doctrine 3/DBAL 4, CakePHP 5 | 2324 | 2104 | 220 | 90.5% |
-| Python | `clients/python` | PyMySQL, SQLAlchemy 2, Django, Peewee | 5076 | 4800 | 264 | 94.8% |
-| Java | `clients/java` | JDBC, Hibernate 6/JPA, MyBatis, jOOQ | 5033 | 4823 | 210 | 95.8% |
-| Node.js | `clients/node` | mysql2, Sequelize 6, TypeORM, Knex | 5115 | 4851 | 264 | 94.8% |
+| PHP | `/` | PDO, Eloquent 12, Doctrine 3/DBAL 4, CakePHP 5, RedBean | 10009 | 8854 | 1155 | 88.5% |
+| Python | `clients/python` | PyMySQL, SQLAlchemy 2, Django, Peewee | 10947 | 9689 | 1246 | 88.6% |
+| Java | `clients/java` | JDBC, Hibernate 6/JPA, MyBatis, jOOQ, Spring Data, JDBI, Flyway, Liquibase | 10361 | 9260 | 1100 | 89.4% |
+| Node.js | `clients/node` | mysql2, Sequelize 6, TypeORM, Knex | 10336 | 9155 | 1181 | 88.6% |
 
-### Per-ORM pass rate (highest-fit ORM per language in **bold**)
+> **Why the headline rate (88.8%) is lower than the earlier 17.5k run (94.5%):** the expansion added large **operator/operand grids** (every arithmetic & comparison operator over a 16-value mixed operand set, in each language). MatrixOne is markedly **stricter than MySQL on implicit mixed-type coercion** — e.g. `'hello' + 1`, `'2026-06-23' * 2`, `'10abc' + 5` are rejected (`20203`) rather than coerced. That single systematic difference accounts for **3,064 of the 4,682 failures**. Excluding the coercion grid, the four suites still sit at ~95%+. It is one finding, repeated at volume across all four languages — i.e. cross-validated, not new breakage.
+
+### Per-ORM pass rate excluding the coercion grids (highest-fit per language in **bold**)
 
 | ORM | Pass % | | ORM | Pass % |
 |---|--:|---|---|--:|
-| TypeORM (Node) | 98.8% | | **Hibernate (Java)** | 98.1% |
-| MyBatis (Java) | 97.9% | | jOOQ (Java) | 97.8% |
+| Spring Data JPA / JDBI (Java) | 100% | | **Hibernate (Java)** | 98.1% |
+| TypeORM (Node) | 98.8% | | jOOQ / MyBatis (Java) | ~97.9% |
 | **SQLAlchemy (Python)** | 97.7% | | Knex (Node) | 97.5% |
-| **Eloquent (PHP)** | 96.7% | | Django (Python) | 96.0% |
-| CakePHP (PHP) | 95.6% | | Doctrine (PHP) | 93.2% |
-| Peewee (Python) | 93.2% | | Sequelize (Node) | 91.0% |
+| **Eloquent (PHP)** | 97.0% | | Django (Python) | 96.0% |
+| CakePHP (PHP) | 95.6% | | RedBean (PHP) | 96.2% |
+| Doctrine (PHP) / Peewee (Python) | 93.2% | | Sequelize (Node) | 91.0% |
 
-### Failures by error signature (all languages)
+### Failures by error signature (all languages, 4,682 total)
 
 | Signature | Count | Meaning |
 |---|--:|---|
-| `1064` | 355 | SQL syntax / feature not supported by the parser |
-| `20105` | 259 | function / operator not implemented |
-| `20203` | 127 | stricter argument/type validation than MySQL |
-| `BEHAVIOR` | 123 | runs without error but result differs from MySQL semantics |
-| `20101` | 46 | internal "not implemented yet" |
-| `20301` | 15 | column/identifier resolution differences |
-| `1149` | 13 | aggregate in WHERE rejected |
-| `1690` | 6 | numeric out-of-range on cast |
-| `20102` | 4 | `EXCEPT ALL` / set-op-all unimplemented |
-| `1105` | 3 | **server panic (nil pointer)** |
-| `TIMEOUT` | 2 | scenario hung |
-| other | 5 | `1062`, `1068`, `20405`, driver `ERROR` |
+| `20203` | 3064 | **stricter mixed-type coercion** than MySQL (the operator grids) |
+| `1064` | 523 | SQL syntax / feature not supported by the parser |
+| `20105` | 320 | function / operator not implemented |
+| `20301` | 255 | column/identifier resolution differences |
+| `BEHAVIOR` | 191 | runs without error but result differs from MySQL semantics |
+| `20101` | 157 | internal "not implemented yet" |
+| `1690` | 114 | numeric out-of-range on cast |
+| `1149` | 23 | aggregate in WHERE rejected |
+| `20102` | 8 | `EXCEPT ALL` / set-op-all unimplemented |
+| `1406` / `S1009` | 11 | data-too-long / driver value errors |
+| `1105` | 3 | **server panic (nil pointer)** — Sequelize ENUM `UPDATE` |
+| other | 13 | `1062`, `1068`, `20405`, `TIMEOUT`, driver `ERROR` |
+
+> New stack additions in this round: **RedBean** (PHP), **Spring Data JPA / JDBI / Flyway / Liquibase** (Java). Notable migration-tool finding: **Liquibase is fully blocked (0/9)** and **Flyway partially (7/2)** by MatrixOne's missing/incomplete `information_schema`, mirroring the Doctrine-Migrations and CakePHP-reflection breakage.
 
 ---
 
@@ -102,9 +107,9 @@ Across all four languages the **ORM core is solid**: entity/model mapping for th
 ## Reproduce
 
 ```bash
-# PHP   (2324):  cd /home/user/php-tester        && php run.php
-# Python(5076):  cd clients/python               && .venv/bin/python run.py
-# Java  (5033):  cd clients/java                 && mvn -q compile exec:java
-# Node  (5115):  cd clients/node                 && node run.js
+# PHP   (10009): cd /home/user/php-tester        && php run.php
+# Python(10947): cd clients/python               && .venv/bin/python run.py
+# Java  (10361): cd clients/java                 && mvn -q compile exec:java
+# Node  (10336): cd clients/node                 && node run.js
 ```
 All suites read `MO_HOST/MO_PORT/MO_USER/MO_PASS` (defaults `127.0.0.1:6001` root/`111`) and write `reports/results.json` + `reports/summary.md`.
