@@ -2,16 +2,17 @@
 
 - **Engine:** 8.0.30-MatrixOne-v4.0.0-rc3
 - **Target:** 127.0.0.1:6001
-- **Run mode:** full (registered 5115, ran 5115)
-- **Generated:** 2026-06-23T10:44:18.253Z
+- **Run mode:** full (registered 10336, ran 10336)
+- **Generated:** 2026-06-23T14:52:50.341Z
 
-**Totals:** 5115 scenarios — 4851 PASS · 264 FAIL · 0 SKIP (94.8% pass)
+**Totals:** 10336 scenarios — 9155 PASS · 1181 FAIL · 0 SKIP (88.6% pass)
 
 ## Pass rate by framework
 
 | Framework | Pass | Fail | Skip | Pass % |
 |---|--:|--:|--:|--:|
 | knex | 850 | 22 | 0 | 97.5% |
+| mega | 4304 | 917 | 0 | 82.4% |
 | raw | 2672 | 155 | 0 | 94.5% |
 | sequelize | 824 | 81 | 0 | 91.0% |
 | typeorm | 505 | 6 | 0 | 98.8% |
@@ -83,6 +84,22 @@
 | knex | type-op/string | 13 | 0 | 0 |
 | knex | type-op/text | 13 | 0 | 0 |
 | knex | where-op | 20 | 0 | 0 |
+| mega | cast:matrix | 148 | 132 | 0 |
+| mega | fn:date-format | 20 | 0 | 0 |
+| mega | fn:date-var | 84 | 0 | 0 |
+| mega | fn:numeric-var | 196 | 28 | 0 |
+| mega | fn:string-var | 232 | 0 | 0 |
+| mega | grid:arith | 1313 | 421 | 0 |
+| mega | grid:bitwise | 250 | 0 | 0 |
+| mega | grid:compare | 1687 | 336 | 0 |
+| mega | grid:logical | 80 | 0 | 0 |
+| mega | workload:analytics | 6 | 0 | 0 |
+| mega | workload:filter | 144 | 0 | 0 |
+| mega | workload:group | 48 | 0 | 0 |
+| mega | workload:join | 18 | 0 | 0 |
+| mega | workload:sort | 48 | 0 | 0 |
+| mega | workload:subquery | 6 | 0 | 0 |
+| mega | workload:window | 24 | 0 | 0 |
 | raw | aggregate-table | 19 | 1 | 0 |
 | raw | alter-add/bin | 6 | 0 | 0 |
 | raw | alter-add/dt | 5 | 0 | 0 |
@@ -559,34 +576,52 @@
 
 | Error code | Count | Likely meaning |
 |---|--:|---|
-| `1064` | 109 | SQL syntax / feature not supported by the parser |
+| `20203` | 818 | stricter argument / type validation than MySQL |
+| `1064` | 139 | SQL syntax / feature not supported by the parser |
 | `20105` | 72 | function / operator not implemented |
-| `20203` | 37 | stricter argument / type validation than MySQL |
+| `20301` | 53 | — |
+| `20101` | 37 | internal "not implemented yet" (e.g. savepoint rollback) |
+| `1690` | 29 | numeric value out of range |
 | `BEHAVIOR` | 16 | ran OK but result differs from MySQL semantics |
-| `20101` | 11 | internal "not implemented yet" (e.g. savepoint rollback) |
 | `1149` | 9 | — |
-| `1690` | 3 | numeric value out of range |
 | `1105` | 2 | — |
+| `1406` | 2 | data too long for column (strict mode) |
 | `TIMEOUT` | 2 | operation did not return within the scenario time cap |
 | `1068` | 1 | multiple primary key defined |
 | `20102` | 1 | — |
-| `20301` | 1 | — |
 
 ## Top distinct failures
 
 | Count | Code | Message (normalized) |
 |--:|---|---|
+| 134 | `20203` | invalid argument cast to int, bad value 2026-06-23 |
+| 134 | `20203` | invalid argument cast to int, bad value 2026-06-23 10:20:30 |
+| 133 | `20203` | invalid argument cast to int, bad value 10abc |
+| 132 | `20203` | invalid argument cast to int, bad value hello |
 | 56 | `20105` | not supported: function or operator '…' |
 | 43 | `1064` | SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syn… |
+| 36 | `20203` | invalid argument operator -, bad value [VARCHAR VARCHAR] |
+| 36 | `20203` | invalid argument operator *, bad value [VARCHAR VARCHAR] |
+| 36 | `20203` | invalid argument operator /, bad value [VARCHAR VARCHAR] |
+| 36 | `20203` | invalid argument operator div, bad value [VARCHAR VARCHAR] |
+| 36 | `20203` | invalid argument operator %, bad value [VARCHAR VARCHAR] |
 | 9 | `1064` | SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syn… |
 | 8 | `20203` | invalid argument parse timestamp, bad value 11:30:00 |
 | 6 | `1064` | SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syn… |
+| 6 | `20203` | invalid argument operator div, bad value [VARCHAR ANY] |
+| 6 | `20203` | invalid argument operator div, bad value [ANY VARCHAR] |
+| 5 | `1690` | data out of range: data type BIGINT, |
+| 5 | `20203` | invalid argument function crc32, bad value [BIGINT] |
 | 4 | `20203` | invalid argument parse timestamp, bad value 11:30:45 |
 | 4 | `20203` | invalid argument cast to int, bad value 9.007199254740991e+15 |
 | 4 | `1064` | SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syn… |
 | 4 | `1064` | SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syn… |
 | 4 | `1064` | SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syn… |
 | 4 | `1064` | SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syn… |
+| 3 | `20203` | invalid argument cast to uint64, bad value abc |
+| 3 | `20203` | invalid argument function crc32, bad value [DECIMAL64] |
+| 3 | `1064` | SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syn… |
+| 3 | `1064` | SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syn… |
 | 2 | `1064` | SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syn… |
 | 2 | `1064` | SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syn… |
 | 2 | `20101` | internal error: unclassified statement appears in uncommitted transaction |
@@ -594,33 +629,20 @@
 | 2 | `20101` | internal error: statement: '…' |
 | 2 | `1064` | SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syn… |
 | 2 | `20203` | invalid argument cast to int, bad value |
+| 2 | `20101` | internal error: Can'…'42' from VARCHAR type to CHAR type. Src length 2 is larger than Dest length 1 |
+| 2 | `20101` | internal error: Can'…'abc' from VARCHAR type to BINARY type. Src length 3 is larger than Dest length 1 |
+| 2 | `1690` | data out of range: data type int64, (9223372036854775807 + 1) |
 | 2 | `20203` | invalid argument operator -, bad value [BOOL BOOL] |
 | 2 | `20101` | internal error: do not support update primary key/unique key for on duplicate key update |
-| 2 | `1105` | internal error: panic runtime error: invalid memory address or nil pointer dereference: runtime.panicmem /usr/local/go/src/runtime/panic.go:… |
-| 2 | `TIMEOUT` | scenario exceeded 30000ms wall-clock cap (likely a non-returning MatrixOne operation) |
-| 1 | `1064` | SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syn… |
-| 1 | `1064` | SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syn… |
-| 1 | `1064` | SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syn… |
-| 1 | `1064` | SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syn… |
-| 1 | `1064` | SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syn… |
-| 1 | `1064` | SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syn… |
-| 1 | `1064` | SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syn… |
-| 1 | `20101` | internal error: unsupported alter option in inplace mode: check (id >= 0) |
-| 1 | `1064` | SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syn… |
-| 1 | `BEHAVIOR` | DELETE..JOIN left 0 rows; MySQL leaves 1 |
-| 1 | `1064` | SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syn… |
-| 1 | `20101` | internal error: savepoint has not been implemented yet. please rollback the transaction. |
-| 1 | `1064` | SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syn… |
-| 1 | `1064` | SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syn… |
-| 1 | `1064` | SQL parser error: You have an error in your SQL syntax; check the manual that corresponds to your MatrixOne server version for the right syn… |
-| 1 | `BEHAVIOR` | '…'='…' returned 0 (utf8mb4_bin); MySQL returns 1 |
-| 1 | `BEHAVIOR` | '…'='…' returned 0; MySQL ai_ci returns 1 |
-| 1 | `BEHAVIOR` | '…'='…' returned 0; MySQL returns 1 |
 
 ## Failing scenarios by framework / category
 
 | Framework / category | Fails | Error codes |
 |---|--:|---|
+| mega / grid:arith | 421 | 20203×384, 1690×25, 20301×12 |
+| mega / grid:compare | 336 | 20203×336 |
+| mega / cast:matrix | 132 | 20301×40, 20203×34, 1064×30, 20101×26, 1406×2 |
+| mega / fn:numeric-var | 28 | 20203×27, 1690×1 |
 | raw / func/json | 22 | 20105×22 |
 | sequelize / op-type/DOUBLE | 17 | 1064×17 |
 | sequelize / type-op/DOUBLE | 15 | 1064×15 |
@@ -692,18 +714,19 @@
 
 ## Error signature × framework
 
-| Code | knex | raw | sequelize | typeorm |
-|---|--:|--:|--:|--:|
-| 1064 | 3 | 30 | 74 | 2 |
-| 20105 | 15 | 56 | 1 |  |
-| 20203 | 3 | 32 | 2 |  |
-| BEHAVIOR |  | 16 |  |  |
-| 20101 | 1 | 8 | 1 | 1 |
-| 1149 |  | 9 |  |  |
-| 1690 |  | 3 |  |  |
-| 1105 |  |  | 2 |  |
-| TIMEOUT |  |  |  | 2 |
-| 1068 |  |  |  | 1 |
-| 20102 |  | 1 |  |  |
-| 20301 |  |  | 1 |  |
+| Code | knex | mega | raw | sequelize | typeorm |
+|---|--:|--:|--:|--:|--:|
+| 20203 | 3 | 781 | 32 | 2 |  |
+| 1064 | 3 | 30 | 30 | 74 | 2 |
+| 20105 | 15 |  | 56 | 1 |  |
+| 20301 |  | 52 |  | 1 |  |
+| 20101 | 1 | 26 | 8 | 1 | 1 |
+| 1690 |  | 26 | 3 |  |  |
+| BEHAVIOR |  |  | 16 |  |  |
+| 1149 |  |  | 9 |  |  |
+| 1105 |  |  |  | 2 |  |
+| 1406 |  | 2 |  |  |  |
+| TIMEOUT |  |  |  |  | 2 |
+| 1068 |  |  |  |  | 1 |
+| 20102 |  |  | 1 |  |  |
 

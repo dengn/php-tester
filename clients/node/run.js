@@ -13,6 +13,7 @@ const FRAMEWORKS = {
   sequelize: { dbKey: 'sequelize', modules: ['./scenarios/sequelize', './scenarios/sequelize_extra', './scenarios/sequelize_matrix2', './scenarios/sequelize_matrix3', './scenarios/sequelize_matrix4'] },
   typeorm: { dbKey: 'typeorm', modules: ['./scenarios/typeorm', './scenarios/typeorm_extra', './scenarios/typeorm_matrix2'] },
   knex: { dbKey: 'knex', modules: ['./scenarios/knex', './scenarios/knex_extra', './scenarios/knex_matrix2', './scenarios/knex_matrix3', './scenarios/knex_matrix4', './scenarios/knex_matrix5'] },
+  mega: { dbKey: 'mega', modules: ['./scenarios/mega'] },
 };
 
 function parseArgs(argv) {

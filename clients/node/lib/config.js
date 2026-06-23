@@ -19,6 +19,7 @@ const DATABASES = {
   objection: 'mo_node_objection',
   mikro: 'mo_node_mikro',
   drizzle: 'mo_node_drizzle',
+  mega: 'mo_node_mega',
 };
 
 module.exports = { CONFIG, DATABASES };
