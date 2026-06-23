@@ -2,3 +2,15 @@
 composer.phar
 .phpunit.result.cache
 *.log
+
+# Client suite build artifacts / dependencies (do not commit)
+clients/**/node_modules/
+clients/**/.venv/
+clients/**/venv/
+clients/**/target/
+clients/**/build/
+clients/**/__pycache__/
+clients/**/*.class
+clients/**/*.jar
+clients/node/package-lock.json
+**/.gradle/
