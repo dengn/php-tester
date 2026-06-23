@@ -44,6 +44,7 @@ DB_SM = os.environ.get("MO_DB_SM", "mo_py_sqlmodel")
 DB_PONY = os.environ.get("MO_DB_PONY", "mo_py_pony")
 DB_TORT = os.environ.get("MO_DB_TORT", "mo_py_tortoise")
 DB_AL = os.environ.get("MO_DB_AL", "mo_py_alembic")
+DB_MEGA = os.environ.get("MO_DB_MEGA", "mo_py_mega")
 
 ALL_DBS = [DB_RAW, DB_SA, DB_DJ, DB_PW, DB_APP, DB_SM, DB_PONY, DB_TORT, DB_AL]
 

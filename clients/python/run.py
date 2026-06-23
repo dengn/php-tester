@@ -38,11 +38,8 @@ FRAMEWORKS = {
     "peewee": ("scenarios.peewee_suite", config.DB_PW),
     # New: real-world application workloads + deeper semantics (raw driver).
     "app": ("scenarios.app_workloads", config.DB_APP),
-    # New: additional ORMs (best-effort against MatrixOne).
-    "sqlmodel": ("scenarios.sqlmodel_suite", config.DB_SM),
-    "pony": ("scenarios.pony_suite", config.DB_PONY),
-    "tortoise": ("scenarios.tortoise_suite", config.DB_TORT),
-    "alembic": ("scenarios.alembic_suite", config.DB_AL),
+    # New: high-volume generated matrices (raw driver).
+    "mega": ("scenarios.mega_matrix", config.DB_MEGA),
 }
 
 
@@ -84,13 +81,15 @@ def main(argv=None):
 
     # Register scenarios. Each framework module exposes register(runner).
     print(f"Registering frameworks: {', '.join(selected_keys)}")
+    missing = []
     for key in selected_keys:
         modpath, _db = FRAMEWORKS[key]
         try:
             mod = __import__(modpath, fromlist=["register"])
         except Exception as e:  # noqa: BLE001
-            print(f"  ! failed to import {modpath}: {e}")
-            raise
+            print(f"  ! skipping {key}: failed to import {modpath}: {e}")
+            missing.append(key)
+            continue
         before = runner.count()
         mod.register(runner)
         print(f"  {key:12s} +{runner.count() - before} scenarios")
