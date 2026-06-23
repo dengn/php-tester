@@ -1,0 +1,24 @@
+{
+  "name": "mo-node-orm-compat",
+  "version": "1.0.0",
+  "description": "MatrixOne ⇆ Node.js ORM compatibility test suite (mysql2, Sequelize, TypeORM, Knex)",
+  "main": "run.js",
+  "scripts": {
+    "test": "node run.js",
+    "raw": "node run.js --only=raw",
+    "sequelize": "node run.js --only=sequelize",
+    "typeorm": "node run.js --only=typeorm",
+    "knex": "node run.js --only=knex",
+    "list": "node run.js --list"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "knex": "^3.2.10",
+    "mysql2": "^3.22.5",
+    "reflect-metadata": "^0.2.2",
+    "sequelize": "^6.37.8",
+    "typeorm": "^1.0.0"
+  }
+}
