@@ -14,6 +14,10 @@ found while testing PHP / Python / Java / Node.js ORMs against MatrixOne.
 
 Findings were reproduced independently across multiple languages/ORMs (cross-validated). Minimal repros below use raw SQL so they are driver-independent.
 
+Issues **#16–#18** come from the **JDBC 4.2 API conformance probe** (`JDBC_COMPAT.md`,
+`clients/java/jdbcapi/`): the driver-level `java.sql.*` surface tested independently
+of any ORM. Each was reduced to a driver-independent SQL/protocol repro.
+
 ---
 
 ## 1. [correctness] Default collation is binary/case-sensitive; explicit `_ci` collations are ignored
@@ -284,3 +288,104 @@ Group of smaller MySQL-compat gaps (each verified):
 (\* some of these may already be implemented in newer builds — please verify against current `main`.)
 
 **Background:** dengn/php-tester#1, #5, #6.
+
+---
+
+## 16. [protocol] Result-set column definitions omit column flags (no `PRI_KEY`/`NOT_NULL`) → JDBC updatable `ResultSet` cannot find the primary key
+
+**Version:** 8.0.30-MatrixOne-v4.0.0-rc3 · **Labels:** bug, protocol, metadata, P2
+
+In the column-definition packets MatrixOne sends for a result set, the per-column
+`flags` field is empty — even for a `PRIMARY KEY` / `NOT NULL` column. MySQL sets
+`PRI_KEY_FLAG` and `NOT_NULL_FLAG` there.
+
+```sql
+CREATE TABLE upd (id INT PRIMARY KEY, v INT);
+INSERT INTO upd VALUES (1, 10);
+SELECT id, v FROM upd;
+```
+
+Inspecting the result-set column metadata (driver-independent — PHP PDO
+`getColumnMeta()`, but the same empty flags are seen by Connector/J):
+
+```
+id => flags=[]      -- MatrixOne     (MySQL/TiDB: flags=[primary_key, not_null])
+v  => flags=[]
+```
+
+**Impact:** any client that relies on the result-set column flags to identify key
+columns breaks. Concretely, JDBC `CONCUR_UPDATABLE` result sets fail:
+
+```
+ResultSet.updateRow()/insertRow()
+  -> "Result Set not updatable (references no primary keys)."
+```
+
+even though the underlying table has a primary key that is present in the
+`SELECT` list. The same operations succeed on TiDB and MySQL. This also weakens
+`ResultSetMetaData` (`isAutoIncrement` aside, key/nullability flags are lost) for
+ORM/tooling that introspects result columns.
+
+**Fix:** populate the `flags` field of the column-definition (text/binary
+protocol) with at least `PRI_KEY_FLAG`, `NOT_NULL_FLAG`, `UNIQUE_KEY_FLAG`,
+`AUTO_INCREMENT_FLAG` to match MySQL.
+
+**Background:** dengn/php-tester JDBC conformance probe (`JDBC_COMPAT.md`).
+
+---
+
+## 17. [compatibility] Reading an undefined user variable `@x` errors (`20101`) instead of returning NULL; `SELECT … INTO @var` rejected (`1064`)
+
+**Version:** 8.0.30-MatrixOne-v4.0.0-rc3 · **Labels:** bug, compatibility, user-variables, P2
+
+Two related user-defined-variable gaps. Basic assignment/readback **works**
+(`SET @x = 5; SELECT @x;` → `5`), but:
+
+```sql
+SELECT @never_set;          -- MySQL: NULL
+                            -- MatrixOne: 20101 internal error: the user variable never_set does not exist
+
+SELECT abs(-5) INTO @o;     -- MySQL: OK (sets @o = 5)
+                            -- MatrixOne: 1064 SQL parser error near "@o"
+```
+
+In MySQL, referencing a user variable that has never been assigned yields `NULL`
+(not an error), and `SELECT expr INTO @var` is standard syntax.
+
+**Impact:** breaks JDBC `CallableStatement` function out-parameters. Connector/J
+implements `{? = call f(?)}` by capturing the result into a session variable
+named `@com_mysql_jdbc_outparam_0` and reading it back; on MatrixOne this fails
+with *"the user variable com_mysql_jdbc_outparam_0 does not exist"*. More
+generally, any application using `@var` accumulators or `SELECT … INTO @var`
+(a common MySQL idiom) is affected.
+
+**Fix:** return `NULL` when reading an unassigned user variable (MySQL
+semantics), and support `SELECT … INTO @var`.
+
+**Background:** dengn/php-tester JDBC conformance probe (`JDBC_COMPAT.md`).
+
+---
+
+## 18. [error-handling] `CALL`/stored-procedure raises a misleading "unclassified statement appears in uncommitted transaction" internal error
+
+**Version:** 8.0.30-MatrixOne-v4.0.0-rc3 · **Labels:** enhancement, error-handling, stored-procedures, P3
+
+Stored procedures are not supported (this is also the case on TiDB, which is a
+reasonable limitation). However, MatrixOne reports it via a confusing internal
+error rather than a clean "feature not supported":
+
+```sql
+CREATE PROCEDURE p1() BEGIN SELECT 1; END;   -- accepted
+CALL p1();
+  -- MatrixOne: internal error: unclassified statement appears in uncommitted transaction
+  -- (TiDB:     a clearer "Unsupported ..." message)
+```
+
+**Impact:** minor, but the `internal error` / "unclassified statement" wording
+misleads users (and JDBC `CallableStatement.execute()` callers) into thinking it
+is a transaction-state problem rather than an unimplemented feature.
+
+**Fix:** return a clear `not supported: stored procedures` style error (ideally a
+MySQL-compatible error code), or implement `CREATE PROCEDURE`/`CALL`.
+
+**Background:** dengn/php-tester JDBC conformance probe (`JDBC_COMPAT.md`).
