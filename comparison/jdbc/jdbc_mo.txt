@@ -1,0 +1,78 @@
+==== DatabaseMetaData ====
+  databaseProductName        MySQL
+  databaseProductVersion     8.0.30-MatrixOne-v4.0.0-rc3
+  driverName                 MySQL Connector/J
+  driverVersion              mysql-connector-j-9.1.0 (Revision: cf2917ea44ae2e43a4514a33771035aa99de73bf)
+  JDBC version               4.2
+  defaultTxIsolation         4
+  identifierQuote            [`]
+  SQLKeywords (len)          1133
+  numericFunctions (n)       27
+  stringFunctions (n)        50
+  timeDateFunctions (n)      30
+  maxConnections             0
+  maxStatementLength         65531
+  rowIdLifetime              ROWID_UNSUPPORTED
+==== supportsXxx capability flags ====
+  transactions                     YES
+  savepoints                       YES
+  storedProcedures                 YES
+  storedFunctionsUsingCallSyntax   YES
+  batchUpdates                     YES
+  getGeneratedKeys                 YES
+  generatedKeyAlwaysReturned       YES
+  multipleResultSets               YES
+  multipleOpenResults              YES
+  namedParameters                  no
+  selectForUpdate                  YES
+  outerJoins                       YES
+  fullOuterJoins                   no
+  unionAll                         YES
+  correlatedSubqueries             YES
+  RS:FORWARD_ONLY                  YES
+  RS:SCROLL_INSENSITIVE            YES
+  RS:SCROLL_SENSITIVE              no
+  RS:CONCUR_UPDATABLE              YES
+  RS:HOLD_OVER_COMMIT              YES
+  TX:READ_UNCOMMITTED              YES
+  TX:READ_COMMITTED                YES
+  TX:REPEATABLE_READ               YES
+  TX:SERIALIZABLE                  YES
+  catalogsInDML                    YES
+  schemasInDML                     no
+  dataDefCausesCommit              YES
+
+==================== JDBC API COMPATIBILITY ====================
+category          WORKS  UNSUPPORTED   BROKEN
+meta:getX            15            0        1
+conn                 23            1        0
+stmt                 15            0        0
+pstmt:set            22            0        0
+pstmt:meta            3            0        1
+rs:get               23            0        0
+rs:nav                4            1        0
+rs:update             0            0        2
+rs:meta               2            0        0
+tx                    3            0        2
+lob                   3            0        0
+callable              0            0        2
+batch                 2            0        0
+genkeys               2            0        0
+exc                   3            0        0
+wrapper               2            0        0
+
+-- UNSUPPORTED features --
+  conn           createArrayOf                      SQLFeatureNotSupportedException
+  rs:nav         getType/getConcurrency/getHoldability SQLFeatureNotSupportedException
+
+-- BROKEN features (driver error other than 'not supported') --
+  meta:getX      getImportedKeys (FK)               assert: FK metadata exposed
+  pstmt:meta     ParameterMetaData getParameterType Parameter metadata not available for the given statement
+  rs:update      CONCUR_UPDATABLE updateRow         Result Set not updatable (references no primary keys).This result set must come from a statement that was crea
+  rs:update      CONCUR_UPDATABLE insertRow         Result Set not updatable (references no primary keys).This result set must come from a statement that was crea
+  tx             setSavepoint(name)                 internal error: savepoint has not been implemented yet. please rollback the transaction.
+  tx             rollback(savepoint) semantics      internal error: savepoint has not been implemented yet. please rollback the transaction.
+  callable       prepareCall + stored procedure     internal error: unclassified statement appears in uncommitted transaction
+  callable       registerOutParameter + function    internal error: the user variable com_mysql_jdbc_outparam_0 does not exist
+
+TOTAL (excl. capability flags): WORKS=122 UNSUPPORTED=2 BROKEN=8

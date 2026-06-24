@@ -1,0 +1,75 @@
+==== DatabaseMetaData ====
+  databaseProductName        MySQL
+  databaseProductVersion     8.0.11-TiDB-v8.5.3
+  driverName                 MySQL Connector/J
+  driverVersion              mysql-connector-j-9.1.0 (Revision: cf2917ea44ae2e43a4514a33771035aa99de73bf)
+  JDBC version               4.2
+  defaultTxIsolation         4
+  identifierQuote            [`]
+  SQLKeywords (len)          970
+  numericFunctions (n)       27
+  stringFunctions (n)        50
+  timeDateFunctions (n)      30
+  maxConnections             0
+  maxStatementLength         65531
+  rowIdLifetime              ROWID_UNSUPPORTED
+==== supportsXxx capability flags ====
+  transactions                     YES
+  savepoints                       YES
+  storedProcedures                 YES
+  storedFunctionsUsingCallSyntax   YES
+  batchUpdates                     YES
+  getGeneratedKeys                 YES
+  generatedKeyAlwaysReturned       YES
+  multipleResultSets               YES
+  multipleOpenResults              YES
+  namedParameters                  no
+  selectForUpdate                  YES
+  outerJoins                       YES
+  fullOuterJoins                   no
+  unionAll                         YES
+  correlatedSubqueries             YES
+  RS:FORWARD_ONLY                  YES
+  RS:SCROLL_INSENSITIVE            YES
+  RS:SCROLL_SENSITIVE              no
+  RS:CONCUR_UPDATABLE              YES
+  RS:HOLD_OVER_COMMIT              YES
+  TX:READ_UNCOMMITTED              YES
+  TX:READ_COMMITTED                YES
+  TX:REPEATABLE_READ               YES
+  TX:SERIALIZABLE                  YES
+  catalogsInDML                    YES
+  schemasInDML                     no
+  dataDefCausesCommit              YES
+
+==================== JDBC API COMPATIBILITY ====================
+category          WORKS  UNSUPPORTED   BROKEN
+meta:getX            16            0        0
+conn                 20            3        1
+stmt                 15            0        0
+pstmt:set            22            0        0
+pstmt:meta            3            0        1
+rs:get               23            0        0
+rs:nav                4            1        0
+rs:update             2            0        0
+rs:meta               2            0        0
+tx                    5            0        0
+lob                   3            0        0
+callable              1            1        0
+batch                 2            0        0
+genkeys               2            0        0
+exc                   3            0        0
+wrapper               2            0        0
+
+-- UNSUPPORTED features --
+  conn           setTransactionIsolation(1)         The isolation level 'READ-UNCOMMITTED' is not supported. Set tidb_skip_isolation_level_check=1 to skip this er
+  conn           setTransactionIsolation(8)         The isolation level 'SERIALIZABLE' is not supported. Set tidb_skip_isolation_level_check=1 to skip this error
+  conn           createArrayOf                      SQLFeatureNotSupportedException
+  rs:nav         getType/getConcurrency/getHoldability SQLFeatureNotSupportedException
+  callable       prepareCall + stored procedure     Unsupported type *resolve.NodeW
+
+-- BROKEN features (driver error other than 'not supported') --
+  conn           setReadOnly/isReadOnly             function READ ONLY has only noop implementation in tidb now, use tidb_enable_noop_functions to enable these fu
+  pstmt:meta     ParameterMetaData getParameterType Parameter metadata not available for the given statement
+
+TOTAL (excl. capability flags): WORKS=125 UNSUPPORTED=5 BROKEN=2
